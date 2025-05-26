@@ -9,20 +9,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Logo } from "./Logo"
-
-const categories = [
-  "Game Pad",
-  "Accessories",
-  "Keyboard",
-  "Switches",
-  "Gaming Headset",
-  "Mouse",
-  "Mousepad",
-  "Camera",
-  "Gaming Chair",
-  "Laptop",
-  "Monitor",
-]
+import { TCategorySomeData } from "@/types/category.type"
+import Link from "next/link"
 
 const navigationItems = [
   { name: "HOME", href: "/" },
@@ -32,7 +20,11 @@ const navigationItems = [
   { name: "CONTACT US", href: "/contact" },
 ]
 
-export function Header() {
+type Props = {
+  categories: TCategorySomeData[];
+};
+
+export function Header({ categories }: Props) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -53,9 +45,11 @@ export function Header() {
                 </SelectTrigger>
                 <SelectContent className="max-h-48 overflow-y-auto">
                   {categories.map((category) => (
-                    <SelectItem key={category} value={category.toLowerCase()}>
-                      {category}
+                    <Link className="cursor-pointer" href={`/products/categories/${category.slug}`} key={category._id}>
+                    <SelectItem className="cursor-pointer" value={category.slug.toLowerCase()}>
+                      {category.title.toLocaleUpperCase()}
                     </SelectItem>
+                    </Link>
                   ))}
                 </SelectContent>
               </Select>
@@ -148,16 +142,13 @@ export function Header() {
 
                     <TabsContent value="categories" className="mt-4">
                       <div className="space-y-2">
-                        {categories.map((category) => (
-                          <Button
-                            key={category}
-                            variant="ghost"
-                            className="w-full justify-start text-left text-sm"
-                            onClick={() => setIsOpen(false)}
-                          >
-                            {category}
-                          </Button>
-                        ))}
+                         {categories.map((category) => (
+                    <Link className="cursor-pointer" href={`/products/categories/${category.slug}`} key={category._id}>
+                    <SelectItem className="cursor-pointer" value={category.slug.toLowerCase()}>
+                      {category.title.toLocaleUpperCase()}
+                    </SelectItem>
+                    </Link>
+                  ))}
                       </div>
                     </TabsContent>
                   </Tabs>

@@ -1,26 +1,13 @@
 import { BASE_API_URL } from ".";
 
-export const getAllProductsForProductCard = async (
-  page?: string,
-  limit?: string,
-  query?: { [key: string]: string | string[] | boolean | undefined }
-) => {
-  const params = new URLSearchParams();
-
-  if (query) {
-    Object.entries(query).forEach(([key, value]) => {
-      if (value !== undefined) params.append(key, value.toString());
-    });
-  }
-
+export const getAllProductsForHome = async () => {
   try {
-    const res = await fetch(
-      `${BASE_API_URL}/products/get-all-for-product-card?limit=${
-        limit || "10"
-      }&page=${page || "1"}&${params.toString()}`,
-      { cache: "no-store" }
-    );
-    return await res.json();
+     const res = await fetch(`${BASE_API_URL}/products/get-all-home-products`,{
+    method: "GET",
+      cache: "no-store",
+    });
+    const products = await res.json();
+    return products.data;
   } catch (error: any) {
     return { error: error.message };
   }

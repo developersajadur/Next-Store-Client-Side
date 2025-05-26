@@ -38,7 +38,7 @@ export function ProductCard({ product }: ProductCardProps) {
               src={product.image?.url || "/placeholder.svg"}
               alt={product.title}
               fill
-              className={`object-contain p-2 transition-opacity duration-300 ${
+              className={`object-contain p-2 rounded-md transition-opacity duration-300 ${
                 imageLoading ? "opacity-0" : "opacity-100"
               }`}
               onLoad={() => setImageLoading(false)}

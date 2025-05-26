@@ -26,7 +26,7 @@ export function Logo({ size = "md", showText = true }: LogoProps) {
       {showText && (
         <div>
           <h1 className={`${textSizeClasses[size]} font-bold text-gray-900`}>NEXT</h1>
-          <p className="text-sm text-blue-500">STORE</p>
+          <p className="text-sm text-orange-500">STORE</p>
         </div>
       )}
     </div>
