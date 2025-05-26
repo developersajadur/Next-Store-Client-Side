@@ -3,11 +3,11 @@
 import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
-import { API_BASE_URL } from ".";
+import { BASE_API_URL } from ".";
 
 export const registerUser = async (userData: FieldValues) => {
   try {
-    const res = await fetch(`${API_BASE_URL}/users/register`, {
+    const res = await fetch(`${BASE_API_URL}/users/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -26,7 +26,7 @@ export const registerUser = async (userData: FieldValues) => {
 
 export const loginUser = async (email: string, password: string) => {
   try {
-    const res = await fetch(`${API_BASE_URL}/auth/login`, {
+    const res = await fetch(`${BASE_API_URL}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
