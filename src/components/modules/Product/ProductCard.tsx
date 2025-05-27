@@ -3,8 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { IProductCard } from "@/types";
+import Link from "next/link";
 
 interface ProductCardProps {
   product: IProductCard;
@@ -26,19 +26,20 @@ export function ProductCard({ product }: ProductCardProps) {
 
   const isOutOfStock = product.stock_quantity <= 0;
   const displayPrice = product.sale_price ?? product.price;
-  const hasDiscount = product.regular_price && product.regular_price > displayPrice;
+  const hasDiscount =
+    product.regular_price && product.regular_price > displayPrice;
 
   return (
-    <Card className="w-full py-2 max-w-sm mx-auto bg-white product-card-custom-shadow">
-      <CardContent className="p-4">
-        {/* Product Image */}
-        <div className="relative aspect-[4/3] mb-3 bg-gray-50 rounded-md overflow-hidden">
+    <div className="bg-gray-50 rounded-lg p-4 text-center shadow-sm">
+      <Link href={`/products/${product.slug}`}>
+        <div className="relative w-full aspect-[4/3] bg-white rounded-md overflow-hidden mb-3">
           {!imageError ? (
             <Image
               src={product.image?.url || "/placeholder.svg"}
               alt={product.title}
               fill
-              className={`object-contain p-2 rounded-md transition-opacity duration-300 ${
+              sizes="(max-width: 768px) 100vw, 33vw"
+              className={`object-contain p-2 transition-opacity duration-300 ${
                 imageLoading ? "opacity-0" : "opacity-100"
               }`}
               onLoad={() => setImageLoading(false)}
@@ -57,18 +58,14 @@ export function ProductCard({ product }: ProductCardProps) {
               </div>
             </div>
           )}
-
           {imageLoading && !imageError && (
-            <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-md" />
+            <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-md z-0" />
           )}
         </div>
 
-        {/* Title */}
-        <h3 className="text-base font-medium text-center text-gray-900 mb-2">
+        <h3 className="font-medium text-sm mb-2 line-clamp-2">
           {product.title}
         </h3>
-
-        {/* Price */}
         <div className="flex items-center justify-center gap-2 mb-4">
           <span className="text-lg font-semibold text-orange-500">
             {formatPrice(displayPrice)}
@@ -79,26 +76,26 @@ export function ProductCard({ product }: ProductCardProps) {
             </span>
           )}
         </div>
-
-        {/* Buttons */}
-        <div className="flex gap-2">
-          <Button
-            onClick={() => handleBuyNow(product._id)}
-            className="flex-1 bg-orange-500 hover:bg-orange-600 text-white text-sm py-2"
-            disabled={isOutOfStock}
-          >
-            {isOutOfStock ? "Out of Stock" : "Buy Now"}
-          </Button>
-          <Button
-            onClick={() => handleAddToCart(product._id)}
-            variant="outline"
-            className="flex-1 border-orange-500 text-orange-500 hover:text-orange-500 hover:bg-gray-50 text-sm py-2"
-            disabled={isOutOfStock}
-          >
-            Add To Cart
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
+      </Link>
+      <div className="flex gap-2">
+        <Button
+          onClick={() => handleBuyNow(product._id)}
+          size="sm"
+          className="bg-orange-500 hover:bg-orange-600 text-white flex-1"
+          disabled={isOutOfStock}
+        >
+          {isOutOfStock ? "Out of Stock" : "Buy Now"}
+        </Button>
+        <Button
+          onClick={() => handleAddToCart(product._id)}
+          size="sm"
+          variant="outline"
+          className="text-orange-500 border-orange-500 flex-1"
+          disabled={isOutOfStock}
+        >
+          Add to Cart
+        </Button>
+      </div>
+    </div>
   );
 }

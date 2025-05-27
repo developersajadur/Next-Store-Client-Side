@@ -35,11 +35,10 @@ export default async function HomePage() {
           <FeaturedProducts products={products.featuredProducts} />
         )}
 
-        {brands?.length > 0 && <HomeBrandsSlider brands={brands} />}
-
         {products?.onSaleProducts?.length > 0 && (
           <OnSaleProducts products={products.onSaleProducts} />
         )}
+        {brands?.length > 0 && <HomeBrandsSlider brands={brands} />}
       </main>
     </div>
   );

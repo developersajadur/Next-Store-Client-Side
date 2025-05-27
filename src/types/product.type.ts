@@ -39,3 +39,6 @@ export type THomeProductResponse = {
   bestReviewedProducts: TBestReviewedProduct[];
 };
 
+
+
+
