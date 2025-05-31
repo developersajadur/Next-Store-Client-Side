@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { IProductCard } from "@/types";
 import Link from "next/link";
+import { ShoppingCart } from "lucide-react";
 
 interface ProductCardProps {
   product: IProductCard;
@@ -26,8 +27,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
   const isOutOfStock = product.stock_quantity <= 0;
   const displayPrice = product.sale_price ?? product.price;
-  const hasDiscount =
-    product.regular_price && product.regular_price > displayPrice;
+  const hasDiscount = product.regular_price && product.regular_price > displayPrice;
 
   return (
     <div className="bg-gray-50 rounded-lg p-4 text-center shadow-sm">
@@ -90,9 +90,10 @@ export function ProductCard({ product }: ProductCardProps) {
           onClick={() => handleAddToCart(product._id)}
           size="sm"
           variant="outline"
-          className="text-orange-500 border-orange-500 flex-1"
+          className="text-orange-500 border-orange-500 flex-1 flex items-center justify-center gap-1"
           disabled={isOutOfStock}
         >
+          <ShoppingCart className="h-4 w-4" />
           Add to Cart
         </Button>
       </div>

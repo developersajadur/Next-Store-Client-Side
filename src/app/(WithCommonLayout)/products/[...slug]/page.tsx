@@ -1,5 +1,5 @@
 import ProductDetails from '@/components/modules/Product/ProductDetails/ProductDetails';
-import { getProductDetailsBySlug } from '@/services/ProductService';
+import { getProductDetailsBySlug, getRelatedProducts } from '@/services/ProductService';
 import React from 'react';
 
 const ProductDetailsPage = async({
@@ -9,9 +9,11 @@ const ProductDetailsPage = async({
 }) => {
       const { slug } = await params;
       const product = await getProductDetailsBySlug(slug)
+      // console.log(product);
+      const relatedProducts = await getRelatedProducts(slug)
     return (
         <div>
-            <ProductDetails product={product}/>
+            <ProductDetails relatedProducts={relatedProducts} product={product}/>
         </div>
     );
 };

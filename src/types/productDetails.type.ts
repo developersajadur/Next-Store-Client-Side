@@ -1,20 +1,20 @@
 import { TMediaSomeData } from "./product.type";
 
 
-interface IVariant {
-  _id: string;
-  color: string;
-  size: string;
-  weight: number;
-  price: number;
-  regular_price: number;
-  sale_price: number;
-  stock_quantity: number;
-  additional: string;
-  image: TMediaSomeData;
-  createdAt: string;
-  updatedAt: string;
-}
+// interface IVariant {
+//   _id: string;
+//   color: string;
+//   size: string;
+//   weight: number;
+//   price: number;
+//   regular_price: number;
+//   sale_price: number;
+//   stock_quantity: number;
+//   additional: string;
+//   image: TMediaSomeData;
+//   createdAt: string;
+//   updatedAt: string;
+// }
 
 interface ISpecification {
   key: string;
@@ -49,7 +49,7 @@ export interface IProductDetails {
   price: number;
   regular_price: number;
   sale_price: number;
-  variants: IVariant[];
+  color?: string[];
   stock_quantity: number;
   specifications: ISpecification[];
   warranty: string;
