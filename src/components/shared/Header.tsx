@@ -1,12 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Search, Menu, User, Heart, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { usePathname } from "next/navigation";
 import {
   Select,
   SelectContent,
@@ -25,6 +24,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Logo } from "./Logo";
 import { TCategorySomeData } from "@/types/category.type";
 import Link from "next/link";
+import { getToken } from "@/services/AuthService";
+import { useUser } from "@/contexts/UserContext";
+import { TTokenUser } from "@/types";
+import Loader from "../Loaders/Loader";
 
 type TNavigationItem = {
   name: string;
@@ -44,9 +47,21 @@ type Props = {
 };
 
 export function Header({ categories }: Props) {
+  const { user } = useUser();
+  const currentUser: TTokenUser | null = user || null;
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
+  const [token, setToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      const storedToken = await getToken();
+      setToken(storedToken || null);
+    };
+    fetchToken();
+  }, []);
 
   const currentCategoryFromUrl = pathname.startsWith("/products/categories/")
     ? pathname.replace("/products/categories/", "")
@@ -67,7 +82,6 @@ export function Header({ categories }: Props) {
     }
   }, [currentCategoryFromUrl]);
 
-  // Submit handler for search form
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const params = new URLSearchParams(searchParams.toString());
@@ -85,13 +99,11 @@ export function Header({ categories }: Props) {
 
   return (
     <header className="w-full bg-white border-b">
-      {/* Top Header */}
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between py-4">
-          {/* Logo */}
           <Logo />
 
-          {/* Search Bar - Hidden on mobile */}
+          {/* Search Bar */}
           <form
             onSubmit={onSubmit}
             className="hidden md:flex flex-1 max-w-2xl mx-8"
@@ -117,7 +129,6 @@ export function Header({ categories }: Props) {
                 <SelectContent className="max-h-48 overflow-y-auto">
                   {categories.map((category) => (
                     <SelectItem
-                      className="cursor-pointer"
                       key={category._id}
                       value={category.slug.toLowerCase()}
                     >
@@ -138,40 +149,36 @@ export function Header({ categories }: Props) {
           {/* Right Actions */}
           <div className="flex items-center space-x-4">
             {/* Desktop Login/Register */}
-            <div className="hidden lg:block">
-              <Button variant="ghost" className="text-sm">
-                LOGIN / REGISTER
-              </Button>
-            </div>
+            {!currentUser && token && (
+              <div className="hidden lg:block">
+                <Link href="/login">
+                  <Button variant="ghost" className="text-sm">
+                    LOGIN / REGISTER
+                  </Button>
+                </Link>
+              </div>
+            )}
 
             {/* Action Icons */}
             <div className="flex items-center space-x-2">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="relative hidden sm:flex"
-              >
-                <Heart className="h-5 w-5" />
-                <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center bg-orange-500 text-white text-xs">
-                  0
-                </Badge>
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="relative hidden sm:flex"
-              >
-                <User className="h-5 w-5" />
-                <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center bg-orange-500 text-white text-xs">
-                  0
-                </Badge>
-              </Button>
-              <Button variant="ghost" size="icon" className="relative">
-                <ShoppingCart className="h-5 w-5" />
-                <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center bg-orange-500 text-white text-xs">
-                  0
-                </Badge>
-              </Button>
+              <Link href="/profile">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="relative sm:flex"
+                >
+                  <User className="h-5 w-5" />
+                </Button>
+              </Link>
+
+              <Link href="/cart">
+                <Button variant="ghost" size="icon" className="relative">
+                  <ShoppingCart className="h-5 w-5" />
+                  <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center bg-orange-500 text-white text-xs">
+                    0
+                  </Badge>
+                </Button>
+              </Link>
               <div className="hidden sm:block text-sm font-medium">৳0.00</div>
             </div>
 
@@ -206,7 +213,6 @@ export function Header({ categories }: Props) {
                     </div>
                   </form>
 
-                  {/* Tabs */}
                   <Tabs defaultValue="menu" className="w-full">
                     <TabsList className="grid w-full grid-cols-2">
                       <TabsTrigger
@@ -216,8 +222,8 @@ export function Header({ categories }: Props) {
                         MENU
                       </TabsTrigger>
                       <TabsTrigger
-                        className="cursor-pointer"
                         value="categories"
+                        className="cursor-pointer"
                       >
                         CATEGORIES
                       </TabsTrigger>
@@ -246,12 +252,12 @@ export function Header({ categories }: Props) {
                       <div className="space-y-2">
                         {categories.map((category) => (
                           <Link
-                            href={`/products/categories/${category.slug}`}
                             key={category._id}
+                            href={`/products/categories/${category.slug}`}
                             className="block px-4 py-2 rounded hover:bg-gray-100 cursor-pointer"
-                            onClick={() => setIsOpen(false)} // Close sheet on click, optional
+                            onClick={() => setIsOpen(false)}
                           >
-                            {category.title.toLocaleUpperCase()}
+                            {category.title.toUpperCase()}
                           </Link>
                         ))}
                       </div>
@@ -264,11 +270,10 @@ export function Header({ categories }: Props) {
         </div>
       </div>
 
-      {/* Desktop Navigation - Only Menu Items */}
+      {/* Bottom Nav */}
       <div className="hidden md:block bg-gray-50 border-t">
         <div className="container mx-auto px-4">
           <nav className="flex items-center space-x-8 py-3">
-            {/* Navigation Items Only */}
             {navigationItems.map((item) => (
               <Link key={item.name} href={item.href}>
                 <Button variant="ghost" className="text-sm font-medium">
