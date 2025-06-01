@@ -35,7 +35,7 @@ export function AllProductsPagination({ currentPage, totalPages, searchParams }:
       <button
         onClick={() => goToPage(currentPage - 1)}
         disabled={currentPage === 1}
-        className="px-3 py-1 rounded border border-gray-300 disabled:opacity-50"
+        className="px-3 py-1 rounded border bg-orange-500 disabled:opacity-50"
       >
         Prev
       </button>
@@ -49,7 +49,7 @@ export function AllProductsPagination({ currentPage, totalPages, searchParams }:
             key={pageNum}
             onClick={() => goToPage(pageNum)}
             className={`px-3 py-1 rounded border border-gray-300 ${
-              isActive ? "bg-blue-600 text-white" : ""
+              isActive ? "bg-orange-500 text-white" : ""
             }`}
           >
             {pageNum}

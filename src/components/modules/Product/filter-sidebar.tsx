@@ -195,7 +195,7 @@ export function FilterSidebar({ className, onClose, isMobile = false }: FilterSi
             </Select>
           </div>
 
-          <Button className="w-full" onClick={updateFilters}>
+          <Button className="w-full bg-orange-500 hover:bg-orange-400" onClick={updateFilters}>
             Apply Filters
           </Button>
         </CardContent>

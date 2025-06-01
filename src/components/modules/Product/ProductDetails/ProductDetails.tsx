@@ -246,32 +246,27 @@ export default function ProductDetails({
                     <label className="block text-sm font-medium mb-2">
                       Color:
                     </label>
-                    <div className="flex gap-2">
-                      {Array.isArray(product.color) &&
-                      product.color.length > 0 ? (
-                        product.color
+                    {Array.isArray(product.color) &&
+                    product.color.length > 0 ? (
+                      <select
+                        value={selectedColor}
+                        onChange={(e) => setSelectedColor(e.target.value)}
+                        className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                      >
+                        <option value="">Select a color</option>
+                        {product.color
                           .filter((c) => c && c.trim() !== "")
                           .map((color: string, index) => (
-                            <Button
-                              key={index}
-                              onClick={() => setSelectedColor(color)}
-                              size="sm"
-                              className={`border  ${
-                                selectedColor === color
-                                  ? "border-orange-500 border-2"
-                                  : "border-black/20"
-                              }`}
-                              style={{ backgroundColor: color, color: "#FF9F00" }}
-                            >
-                              {/* {color} */}
-                            </Button>
-                          ))
-                      ) : (
-                        <span className="text-sm text-gray-500 italic">
-                          Not Available
-                        </span>
-                      )}
-                    </div>
+                            <option key={index} value={color}>
+                              {color}
+                            </option>
+                          ))}
+                      </select>
+                    ) : (
+                      <span className="text-sm text-gray-500 italic">
+                        Not Available
+                      </span>
+                    )}
                   </div>
 
                   {/* Quantity and Actions */}

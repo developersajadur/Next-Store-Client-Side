@@ -1,11 +1,11 @@
 import { FilterSidebar } from "@/components/modules/Product/filter-sidebar";
-import { Loader } from "@/components/modules/Product/loader";
 import { MobileFilterSheet } from "@/components/modules/Product/mobile-filter-sheet";
 import { ProductCard } from "@/components/modules/Product/ProductCard";
 import { getAllProductsWithQuery } from "@/services/ProductService";
 import { Suspense } from "react";
 import { AllProductsPagination } from "@/components/modules/Product/AllProductsPagination";
 import { IProductCard } from "@/types";
+import AllProductsLoading from "@/components/Loaders/AllProductsLoading";
 
 interface SearchParams {
   search?: string;
@@ -100,9 +100,7 @@ export default async function AllProductsPage({
         <main className="flex-1 min-w-0">
           <Suspense
             fallback={
-              <div className="flex justify-center py-12">
-                <Loader variant="spinner" size="lg" text="Loading products..." />
-              </div>
+              <AllProductsLoading/>
             }
           >
             <ProductsPage searchParams={resolvedSearchParams} />

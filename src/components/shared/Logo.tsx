@@ -1,4 +1,5 @@
 import { ShoppingBag } from "lucide-react"
+import Link from "next/link"
 
 interface LogoProps {
   size?: "sm" | "md" | "lg"
@@ -19,16 +20,16 @@ export function Logo({ size = "md", showText = true }: LogoProps) {
   }
 
   return (
-    <div className="flex items-center space-x-2">
-      <div className={`${sizeClasses[size]} bg-orange-500 rounded-lg flex items-center justify-center`}>
+     <Link href="/" className="flex items-center space-x-2">
+      <div className={`${sizeClasses[size]} bg-orange-500 rounded-full flex items-center justify-center`}>
         <ShoppingBag className="w-1/2 h-1/2 text-white" />
       </div>
       {showText && (
         <div>
           <h1 className={`${textSizeClasses[size]} font-bold text-gray-900`}>NEXT</h1>
-          <p className="text-sm text-orange-500">STORE</p>
+          <p className="text-sm text-orange-600">STORE</p>
         </div>
       )}
-    </div>
+    </Link>
   )
 }

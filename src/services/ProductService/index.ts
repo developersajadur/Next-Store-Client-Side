@@ -1,4 +1,5 @@
-import { BASE_API_URL } from ".";
+import { BASE_API_URL } from "..";
+
 
 export const getAllProductsWithQuery = async (
   page?: string,

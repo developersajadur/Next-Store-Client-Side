@@ -9,11 +9,12 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  allowedDevOrigins: ['local-origin.dev', '*.local-origin.dev'],
+  allowedDevOrigins: ["local-origin.dev", "*.local-origin.dev"],
   experimental: {
     serverActions: {
-      bodySizeLimit: '10mb',
+      bodySizeLimit: "10mb",
     },
+    // typedRoutes: true,
   },
 };
 

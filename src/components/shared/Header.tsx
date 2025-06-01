@@ -6,6 +6,7 @@ import { Search, Menu, User, Heart, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { usePathname } from "next/navigation";
 import {
   Select,
   SelectContent,
@@ -25,10 +26,15 @@ import { Logo } from "./Logo";
 import { TCategorySomeData } from "@/types/category.type";
 import Link from "next/link";
 
-const navigationItems = [
+type TNavigationItem = {
+  name: string;
+  href: string;
+};
+
+const navigationItems: TNavigationItem[] = [
   { name: "HOME", href: "/" },
   { name: "SHOP", href: "/products" },
-  { name: "BLOG", href: "/blog" },
+  { name: "BLOG", href: "/blogs" },
   { name: "ABOUT US", href: "/about" },
   { name: "CONTACT US", href: "/contact" },
 ];
@@ -40,14 +46,26 @@ type Props = {
 export function Header({ categories }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
 
-  // Initialize search state from query param 'search'
+  const currentCategoryFromUrl = pathname.startsWith("/products/categories/")
+    ? pathname.replace("/products/categories/", "")
+    : "";
+
+  const [selectedCategory, setSelectedCategory] = useState(
+    currentCategoryFromUrl
+  );
   const [search, setSearch] = useState(searchParams.get("search") || "");
 
-  // Update search state whenever URL searchParams changes (e.g. back/forward nav)
   useEffect(() => {
     setSearch(searchParams.get("search") || "");
   }, [searchParams]);
+
+  useEffect(() => {
+    if (currentCategoryFromUrl) {
+      setSelectedCategory(currentCategoryFromUrl);
+    }
+  }, [currentCategoryFromUrl]);
 
   // Submit handler for search form
   const onSubmit = (e: React.FormEvent) => {
@@ -86,24 +104,25 @@ export function Header({ categories }: Props) {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
-              <Select>
+              <Select
+                value={selectedCategory || ""}
+                onValueChange={(value) => {
+                  setSelectedCategory(value);
+                  router.push(`/products/categories/${value}`);
+                }}
+              >
                 <SelectTrigger className="w-48 rounded-none border-l-0 border-r-0 cursor-pointer">
                   <SelectValue placeholder="SELECT CATEGORY" />
                 </SelectTrigger>
                 <SelectContent className="max-h-48 overflow-y-auto">
                   {categories.map((category) => (
-                    <Link
+                    <SelectItem
                       className="cursor-pointer"
-                      href={`/products/categories/${category.slug}`}
                       key={category._id}
+                      value={category.slug.toLowerCase()}
                     >
-                      <SelectItem
-                        className="cursor-pointer"
-                        value={category.slug.toLowerCase()}
-                      >
-                        {category.title.toLocaleUpperCase()}
-                      </SelectItem>
-                    </Link>
+                      {category.title.toUpperCase()}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
