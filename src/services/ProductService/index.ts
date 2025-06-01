@@ -30,6 +30,36 @@ export const getAllProductsWithQuery = async (
     return { error: error.message || "Unknown error occurred" };
   }
 };
+export const getAllProductsForCategoryWithQuery = async (
+    categorySlug: string,
+  page?: string,
+  limit?: string,
+  query?: { [key: string]: string | string[] | boolean | undefined },
+) => {
+  const params = new URLSearchParams();
+
+  if (query) {
+    Object.entries(query).forEach(([key, value]) => {
+      if (value !== undefined && value !== "") {
+        params.append(key, value.toString());
+      }
+    });
+  }
+
+  try {
+    const url = `${process.env.NEXT_PUBLIC_BASE_API}/products/get-all-category-products/${categorySlug}?limit=${limit || "9"}&page=${page || "1"}&${params.toString()}`;
+    const res = await fetch(url, { cache: "no-store" });
+    const json = await res.json();
+    // console.log(res);
+
+    return {
+      products: json.data?.data || [],
+      meta: json.meta || { total: 0, totalPage: 1 },
+    };
+  } catch (error: any) {
+    return { error: error.message || "Unknown error occurred" };
+  }
+};
 
 
 

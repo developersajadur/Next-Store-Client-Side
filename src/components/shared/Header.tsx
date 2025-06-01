@@ -27,7 +27,6 @@ import Link from "next/link";
 import { getToken } from "@/services/AuthService";
 import { useUser } from "@/contexts/UserContext";
 import { TTokenUser } from "@/types";
-import Loader from "../Loaders/Loader";
 
 type TNavigationItem = {
   name: string;
