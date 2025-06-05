@@ -6,21 +6,30 @@ import { Button } from "@/components/ui/button";
 import { IProductCard } from "@/types";
 import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { addProductToCart } from "@/redux/features/cartSlice";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface ProductCardProps {
   product: IProductCard;
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const router = useRouter()
   const [imageLoading, setImageLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
+  const dispatch = useDispatch();
 
-  const handleAddToCart = (id: string) => {
-    console.log("Add to Cart:", id);
+  const handleAddToCart = (product: IProductCard) => {
+      dispatch(addProductToCart({ ...product, orderQuantity: 1 }));
+    toast.success("Product added to cart successfully!");
+    router.push("/cart")
   };
 
   const handleBuyNow = (id: string) => {
     console.log("Buy Now:", id);
+    // You may navigate to checkout here
   };
 
   const formatPrice = (price: number) => `${price.toLocaleString()}৳`;
@@ -77,6 +86,7 @@ export function ProductCard({ product }: ProductCardProps) {
           )}
         </div>
       </Link>
+
       <div className="flex gap-2">
         <Button
           onClick={() => handleBuyNow(product._id)}
@@ -87,7 +97,7 @@ export function ProductCard({ product }: ProductCardProps) {
           {isOutOfStock ? "Out of Stock" : "Buy Now"}
         </Button>
         <Button
-          onClick={() => handleAddToCart(product._id)}
+          onClick={() => handleAddToCart(product)}
           size="sm"
           variant="outline"
           className="text-orange-500 border-orange-500 flex-1 flex items-center justify-center gap-1"

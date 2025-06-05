@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { Search, Menu, User, Heart, ShoppingCart } from "lucide-react";
+import { Search, Menu, User, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -24,7 +24,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Logo } from "./Logo";
 import { TCategorySomeData } from "@/types/category.type";
 import Link from "next/link";
-import { getToken } from "@/services/AuthService";
 import { useUser } from "@/contexts/UserContext";
 import { TTokenUser } from "@/types";
 
@@ -52,15 +51,6 @@ export function Header({ categories }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const [token, setToken] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchToken = async () => {
-      const storedToken = await getToken();
-      setToken(storedToken || null);
-    };
-    fetchToken();
-  }, []);
 
   const currentCategoryFromUrl = pathname.startsWith("/products/categories/")
     ? pathname.replace("/products/categories/", "")
@@ -148,7 +138,7 @@ export function Header({ categories }: Props) {
           {/* Right Actions */}
           <div className="flex items-center space-x-4">
             {/* Desktop Login/Register */}
-            {!currentUser && token && (
+            {!currentUser && (
               <div className="hidden lg:block">
                 <Link href="/login">
                   <Button variant="ghost" className="text-sm">

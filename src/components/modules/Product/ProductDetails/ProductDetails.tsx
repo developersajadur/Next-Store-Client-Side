@@ -11,10 +11,14 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { IProductCard, IProductDetails, TMediaSomeData } from "@/types";
+import {  IProductCard, IProductDetails, TMediaSomeData } from "@/types";
 import "keen-slider/keen-slider.min.css";
 import { ProductCard } from "../ProductCard";
 import Link from "next/link";
+import { addProductToCart } from "@/redux/features/cartSlice";
+import { useDispatch } from "react-redux";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const recentlyViewed = [
   {
@@ -54,6 +58,25 @@ export default function ProductDetails({
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState("");
   const [activeSection, setActiveSection] = useState("specification");
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const handleAddToCart = () => {
+    const cartProduct = {
+      _id: product._id,
+      slug: product.slug,
+      title: product.title,
+      image: product.image,
+      price: product.price,
+      regular_price: product.regular_price,
+      sale_price: product.sale_price,
+      stock_quantity: product.stock_quantity,
+
+    };
+    dispatch(addProductToCart({ ...cartProduct, orderQuantity: 1 }));
+    toast.success("Product added to cart successfully!");
+    router.push("/cart");
+  };
 
   // Main product image slider
   const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
@@ -294,6 +317,7 @@ export default function ProductDetails({
                       Buy Now
                     </Button>
                     <Button
+                      onClick={() => handleAddToCart()}
                       variant="outline"
                       className="text-orange-500 border-orange-500"
                     >

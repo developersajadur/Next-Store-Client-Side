@@ -3,13 +3,17 @@ export interface IProductCard {
   _id: string;
   title: string;
   slug: string;
-  image: TMediaSomeData
+  image: TMediaSomeData;
   category: string[];
-  brand: string;  
+  brand: string;
   price: number;
   regular_price: number;
   sale_price: number;
   stock_quantity: number;
+}
+
+export interface ICart extends Omit<IProductCard, "category" | "brand"> {
+  orderQuantity: number;
 }
 
 
