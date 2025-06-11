@@ -3,12 +3,10 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type TInitialState = {
   products: ICart[];
-  address: string;
 };
 
 const initialState: TInitialState = {
-  products: [],
-  address: "",
+  products: []
 };
 
 const cartSlice = createSlice({
@@ -47,9 +45,9 @@ const cartSlice = createSlice({
           : item
       );
     },
-    setShippingAddress(state, action: PayloadAction<string>) {
-      state.address = action.payload;
-    },
+    // setShippingAddress(state, action: PayloadAction<string>) {
+    //   state.address = action.payload;
+    // },
     clearCart(state) {
       state.products = [];
     },
@@ -60,7 +58,7 @@ export const {
   addProductToCart,
   removeProductFromCart,
   updateProductQuantity,
-  setShippingAddress,
+  // setShippingAddress,
   clearCart,
 } = cartSlice.actions;
 

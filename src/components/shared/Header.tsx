@@ -26,6 +26,7 @@ import { TCategorySomeData } from "@/types/category.type";
 import Link from "next/link";
 import { useUser } from "@/contexts/UserContext";
 import { TTokenUser } from "@/types";
+import { useAppSelector } from "@/redux/hooks";
 
 type TNavigationItem = {
   name: string;
@@ -47,6 +48,7 @@ type Props = {
 export function Header({ categories }: Props) {
   const { user } = useUser();
   const currentUser: TTokenUser | null = user || null;
+  const { products: cartItems } = useAppSelector((state) => state.cart);
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -150,21 +152,23 @@ export function Header({ categories }: Props) {
 
             {/* Action Icons */}
             <div className="flex items-center space-x-2">
-              <Link href="/profile">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="relative sm:flex"
-                >
-                  <User className="h-5 w-5" />
-                </Button>
-              </Link>
+              {currentUser && (
+                <Link href="/profile">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="relative sm:flex"
+                  >
+                    <User className="h-5 w-5" />
+                  </Button>
+                </Link>
+              )}
 
               <Link href="/cart">
                 <Button variant="ghost" size="icon" className="relative">
                   <ShoppingCart className="h-5 w-5" />
                   <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center bg-orange-500 text-white text-xs">
-                    0
+                    {cartItems.length}
                   </Badge>
                 </Button>
               </Link>

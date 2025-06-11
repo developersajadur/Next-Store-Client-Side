@@ -12,7 +12,7 @@ const CartComponent = () => {
   const [discountApplied, setDiscountApplied] = useState(false);
 
   const dispatch = useAppDispatch();
-  const { products: cartItems } = useAppSelector((state) => state.cart);
+  const { products: cartItems } = useAppSelector((state) => state.cart); 
 
   const handleRemoveItem = (productId: string) => {
     dispatch(removeProductFromCart(productId));
@@ -25,13 +25,6 @@ const CartComponent = () => {
 
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.orderQuantity, 0);
   const totalCost = subtotal;
-
-  const handleCheckout = () => {
-    console.log(
-      "Order Placed:",
-      cartItems.map((item) => ({ orderId: item._id, orderQuantity: item.orderQuantity }))
-    );
-  };
 
   const applyPromoCode = () => {
     if (promoCode.toLowerCase() === "save10" && !discountApplied) {
@@ -167,12 +160,13 @@ const CartComponent = () => {
               <span>Total</span>
               <span>{totalCost.toFixed(2)} BDT</span>
             </div>
+               <Link href="/checkout">
             <button
               className="w-full mt-6 py-3 cursor-pointer bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 transition-all duration-200 shadow-md"
-              onClick={handleCheckout}
             >
               Checkout
             </button>
+            </Link>
           </div>
         </div>
       )}
