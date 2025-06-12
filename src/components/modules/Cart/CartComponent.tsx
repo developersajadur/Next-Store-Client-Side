@@ -36,9 +36,9 @@ const CartComponent = () => {
 
   return (
     <div className="container mx-auto p-4 md:p-8 lg:p-12">
-      <h2 className="text-2xl md:text-3xl font-semibold mb-6 text-gray-800">
+      <h1 className="text-2xl md:text-3xl font-semibold mb-6 text-gray-800">
         Shopping Cart
-      </h2>
+      </h1>
 
       {cartItems.length === 0 ? (
         <h2 className="text-2xl text-center text-gray-500">
@@ -68,7 +68,7 @@ const CartComponent = () => {
                   <div className="flex flex-col md:flex-row md:items-center justify-between w-full">
                     <div>
                       <div className="flex justify-between">
-                        <Link href={`/products/${item.slug}`} className="text-md md:text-lg font-semibold text-primary">
+                        <Link href={`/products/${item.slug}`} className="text-md md:text-lg font-semibold hover:underline text-primary">
                           {item.title}
                         </Link>
                         {/* Delete Button */}
