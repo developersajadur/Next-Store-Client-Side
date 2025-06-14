@@ -21,7 +21,6 @@ import { useUser } from "@/contexts/UserContext";
 import { ICart, IProductCard, TTokenUser } from "@/types";
 import { useEffect, useState } from "react";
 import {
-  clearCart,
   removeProductFromCart,
   updateProductQuantity,
 } from "@/redux/features/cartSlice";
@@ -143,11 +142,10 @@ export default function CheckoutComponent({ product }: CheckoutComponentProps) {
         note: data.note,
       });
       if (res.success) {
-        toast.success("Order placed successfully!");
+        toast.loading("Redirecting to payment gateway...");
         if (data.method === "online") {
           router.push(res.data);
         }
-        dispatch(clearCart());
       } else {
         toast.error(res.message || "Error placing the order");
       }

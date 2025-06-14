@@ -27,9 +27,8 @@ export function ProductCard({ product }: ProductCardProps) {
     router.push("/cart")
   };
 
-  const handleBuyNow = (id: string) => {
-    console.log("Buy Now:", id);
-    // You may navigate to checkout here
+  const handleBuyNow = (slug: string) => {
+    router.push(`/checkout/${slug}`)
   };
 
   const formatPrice = (price: number) => `${price.toLocaleString()}৳`;
@@ -89,7 +88,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
       <div className="flex gap-2">
         <Button
-          onClick={() => handleBuyNow(product._id)}
+          onClick={() => handleBuyNow(product.slug)}
           size="sm"
           className="bg-orange-500 hover:bg-orange-600 text-white flex-1"
           disabled={isOutOfStock}
