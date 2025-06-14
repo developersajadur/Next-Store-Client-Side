@@ -1,5 +1,5 @@
 import CheckoutComponent from "@/components/modules/Checkout/CheckoutComponent"
 
 export default function CheckoutPage() {
-  return <CheckoutComponent />
+  return <CheckoutComponent product={null} />
 }
