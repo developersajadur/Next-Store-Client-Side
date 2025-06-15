@@ -124,3 +124,13 @@
 .product-card-custom-shadow {
   box-shadow: 0 0 10px rgb(0 0 0 / 7%);
 }
+
+
+/* Hide scrollbar but keep scroll functionality */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;    /* Firefox */
+}
