@@ -3,7 +3,6 @@
 import { FieldValues } from "react-hook-form";
 import { BASE_API_URL } from "..";
 import { cookies } from "next/headers";
-import { IOrderStatus } from "@/types";
 
 
 

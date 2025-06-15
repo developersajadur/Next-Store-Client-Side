@@ -16,3 +16,21 @@ export type TTokenUser = {
   iat: number;
   exp: number
 };
+
+
+
+export type TUser = {
+  _id: string;
+  name: string;
+  email: string;
+  phone?: number | string;
+  password?: string;
+  role: 'customer' | 'admin';
+  profileImage?: string;
+  address?: string;
+  isBlocked: boolean;
+  isDeleted: boolean;
+  loginType: TLoginType;
+  createdAt?: Date;
+  updatedAt?: Date;
+};
