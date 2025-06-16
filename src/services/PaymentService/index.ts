@@ -21,3 +21,22 @@ export const PaymentConfirmation = async (orderId: string) => {
     return new Error(error.message || "Something went wrong!");
   }
 };
+
+export const getMyPayments = async () => {
+  try {
+    const res = await fetch(
+      `${BASE_API_URL}/payments/get-my-payments`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: (await cookies()).get("token")?.value || "",
+        },
+      }
+    );
+    const result = await res.json();
+    return result.data;
+  } catch (error: any) {
+    return new Error(error.message || "Something went wrong!");
+  }
+};

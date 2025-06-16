@@ -5,8 +5,6 @@ import { usePathname } from "next/navigation"
 import {
   User,
   ShoppingBag,
-  Star,
-  Heart,
   CreditCard,
   Settings,
   Menu,
@@ -24,9 +22,9 @@ import { Button } from "@/components/ui/button"
 const menuItems = [
   { title: "My Account", icon: User, href: "/profile" },
   { title: "My Orders", icon: ShoppingBag, href: "/profile/my-orders" },
-  { title: "Reviews", icon: Star, href: "/profile/reviews" },
-  { title: "Wishlist", icon: Heart, href: "/profile/wishlist" },
-  { title: "Payment", icon: CreditCard, href: "/profile/payments" },
+  // { title: "Reviews", icon: Star, href: "/profile/reviews" },
+  // { title: "Wishlist", icon: Heart, href: "/profile/wishlist" },
+  { title: "Payment History", icon: CreditCard, href: "/profile/payments-history" },
   { title: "Settings", icon: Settings, href: "/profile/settings" },
 ]
 

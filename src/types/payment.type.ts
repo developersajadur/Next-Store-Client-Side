@@ -51,3 +51,32 @@ export type TPaymentResponse = {
     date_time: string;
   };
 };
+
+
+export type TPayment = {
+  transactionId: string;
+  method: string;
+  status: "paid" | "pending" | "failed" | "refunded";
+  amount: number;
+  createdAt: string;
+  gatewayResponse: {
+    method: string;
+  };
+};
+
+export type TPaymentMeta = {
+  totalPayments: number;
+  totalAmount: number;
+  successRate: number;
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPage: number;
+  };
+};
+
+export type TPaymentHistoryResponse = {
+  payments: TPayment[];
+  meta: TPaymentMeta;
+};
