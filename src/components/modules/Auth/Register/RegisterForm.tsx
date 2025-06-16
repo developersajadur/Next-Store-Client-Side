@@ -11,14 +11,16 @@ import { RegisterFormData, registerSchema } from "../AuthValidation";
 import { toast } from "sonner";
 import { registerUser } from "@/services/AuthService";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useUser } from "@/contexts/UserContext";
 
 export function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsCurrentPageLoading] = useState(false);
 
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirectPath");
+    const { setIsLoading } = useUser();
 
   const {
     register,
@@ -29,7 +31,7 @@ export function RegisterForm() {
   });
 
   const onSubmit = async (data: RegisterFormData) => {
-    setIsLoading(true);
+    setIsCurrentPageLoading(true);
     try {
       const result = await registerUser(data);
 
@@ -38,13 +40,16 @@ export function RegisterForm() {
            setTimeout(() => {
           router.push(redirect || "/");
         }, 500);
+            setIsLoading(true);
+        
       } else {
         toast.error(result.message || "Registration failed");
+         setIsCurrentPageLoading(false);
       }
     } catch (_error) {
       toast.error("Something went wrong. Please try again.");
     } finally {
-      setIsLoading(false);
+      setIsCurrentPageLoading(false);
     }
   };
 

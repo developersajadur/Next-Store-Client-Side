@@ -1,24 +1,26 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Eye, EyeOff } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { LoginFormData, loginSchema } from "../AuthValidation"
-import { toast } from "sonner"
-import { loginUser } from "@/services/AuthService"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Eye, EyeOff } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { LoginFormData, loginSchema } from "../AuthValidation";
+import { toast } from "sonner";
+import { loginUser } from "@/services/AuthService";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useUser } from "@/contexts/UserContext";
 
 export function LoginForm() {
-  const [showPassword, setShowPassword] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsCurrentPageLoading] = useState(false);
 
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const redirect = searchParams.get("redirectPath");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirectPath");
+  const { setIsLoading } = useUser();
 
   const {
     register,
@@ -26,27 +28,28 @@ export function LoginForm() {
     formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
-  })
+  });
 
   const onSubmit = async (data: LoginFormData) => {
-    setIsLoading(true)
     try {
-      const result = await loginUser(data)
-
+      const result = await loginUser(data);
+      setIsCurrentPageLoading(false);
       if (result.success) {
-        toast.success("Login Successfully")
-            setTimeout(() => {
+        toast.success("Login Successfully");
+        setTimeout(() => {
           router.push(redirect || "/");
         }, 500);
+            setIsLoading(true);
       } else {
-          toast.error(result.message || "Login Failed")
+        toast.error(result.message || "Login Failed");
       }
     } catch (_error) {
-       toast.error("Something went wrong. Please try again.")
+      console.log(_error);
+      toast.error("Something went wrong. Please try again.");
     } finally {
-      setIsLoading(false)
+      setIsCurrentPageLoading(false);
     }
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -59,7 +62,9 @@ export function LoginForm() {
           {...register("email")}
           className={errors.email ? "border-red-500" : ""}
         />
-        {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
+        {errors.email && (
+          <p className="text-sm text-red-500">{errors.email.message}</p>
+        )}
       </div>
 
       <div className="space-y-2">
@@ -79,10 +84,16 @@ export function LoginForm() {
             className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
             onClick={() => setShowPassword(!showPassword)}
           >
-            {showPassword ? <EyeOff className="h-4 w-4 text-gray-400" /> : <Eye className="h-4 w-4 text-gray-400" />}
+            {showPassword ? (
+              <EyeOff className="h-4 w-4 text-gray-400" />
+            ) : (
+              <Eye className="h-4 w-4 text-gray-400" />
+            )}
           </Button>
         </div>
-        {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
+        {errors.password && (
+          <p className="text-sm text-red-500">{errors.password.message}</p>
+        )}
       </div>
 
       <div className="flex justify-end">
@@ -91,9 +102,13 @@ export function LoginForm() {
         </Button>
       </div>
 
-      <Button type="submit" className="w-full bg-orange-500 hover:bg-orange-600" disabled={isLoading}>
+      <Button
+        type="submit"
+        className="w-full bg-orange-500 hover:bg-orange-600"
+        disabled={isLoading}
+      >
         {isLoading ? "Signing in..." : "Login"}
       </Button>
     </form>
-  )
+  );
 }

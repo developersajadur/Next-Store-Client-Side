@@ -131,6 +131,7 @@ export function Header({ categories }: Props) {
               </Select>
               <Button
                 type="submit"
+                  disabled={!search.trim()}
                 className="rounded-l-none bg-gray-100 hover:bg-gray-200 text-gray-600"
               >
                 <Search className="h-4 w-4" />
@@ -199,6 +200,7 @@ export function Header({ categories }: Props) {
                         onChange={(e) => setSearch(e.target.value)}
                       />
                       <Button
+                        disabled={!search.trim()}
                         type="submit"
                         className="rounded-l-none bg-gray-100 hover:bg-gray-200 text-gray-600"
                       >

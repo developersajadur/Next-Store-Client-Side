@@ -1,4 +1,5 @@
 
+import { Footer } from '@/components/shared/Footer';
 import { Header } from '@/components/shared/Header';
 import { getAllCategoryWithSomeData } from '@/services/CategoryService';
 import React from 'react';
@@ -11,6 +12,9 @@ const CommonLayout = async ({ children }: { children: React.ReactNode })  => {
                <Header categories={categories}/> 
             </header>
              <main className="min-h-screen container mx-auto px-4 py-6">{children}</main>
+             <footer>
+                <Footer/>
+             </footer>
         </div>
     );
 };
