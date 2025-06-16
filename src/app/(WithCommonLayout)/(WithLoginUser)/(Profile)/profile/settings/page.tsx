@@ -1,63 +1,63 @@
-// import { SidebarTrigger } from "@/components/ui/sidebar"
-import { Separator } from "@/components/ui/separator"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Lock, Palette, MapPin } from "lucide-react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { ChangePasswordForm } from "@/components/modules/Settings/ChangePasswordForm"
+import { ThemeSwitcher } from "@/components/modules/Settings/ThemeSwitcher"
+import { AddressManager } from "@/components/modules/Settings/AddressManager"
 
-export default function SettingsPage() {
+const SettingPage = () => {
   return (
-    <>
-      <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-        {/* <SidebarTrigger className="-ml-1" /> */}
-        <Separator orientation="vertical" className="mr-2 h-4" />
-        <h1 className="text-xl font-semibold">Settings</h1>
-      </header>
-      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-        <div className="min-h-[100vh] flex-1 rounded-xl bg-background md:min-h-min p-6">
-          <div className="space-y-6">
-            <h2 className="text-2xl font-semibold">Account Settings</h2>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Change Password</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="current-password">Current Password</Label>
-                  <Input id="current-password" type="password" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="new-password">New Password</Label>
-                  <Input id="new-password" type="password" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="confirm-password">Confirm New Password</Label>
-                  <Input id="confirm-password" type="password" />
-                </div>
-                <Button>Update Password</Button>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Notification Preferences</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="email-notifications">Email Notifications</Label>
-                  <input type="checkbox" id="email-notifications" defaultChecked />
-                </div>
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="sms-notifications">SMS Notifications</Label>
-                  <input type="checkbox" id="sms-notifications" />
-                </div>
-                <Button>Save Preferences</Button>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
+    <div className="space-y-8">
+      {/* Header */}
+      <div className="text-center md:text-left">
+        <h1 className="text-2xl font-semibold">Settings</h1>
+        <p className="text-muted-foreground mt-2">Manage your account settings</p>
       </div>
-    </>
-  )
-}
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Change Password */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <Lock className="h-5 w-5" />
+              <span>Change Password</span>
+            </CardTitle>
+            <CardDescription>Update your password to keep your account secure</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ChangePasswordForm />
+          </CardContent>
+        </Card>
+
+        {/* Appearance */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <Palette className="h-5 w-5" />
+              <span>Appearance</span>
+            </CardTitle>
+            <CardDescription>Choose your preferred theme</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ThemeSwitcher />
+          </CardContent>
+        </Card>
+
+        {/* Shipping Addresses */}
+        <Card className="lg:col-span-2">
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <MapPin className="h-5 w-5" />
+              <span>Shipping Addresses</span>
+            </CardTitle>
+            <CardDescription>Manage your delivery addresses for faster checkout</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <AddressManager />
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+export default SettingPage;

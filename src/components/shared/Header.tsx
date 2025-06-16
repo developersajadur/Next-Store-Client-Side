@@ -49,6 +49,7 @@ export function Header({ categories }: Props) {
   const { user } = useUser();
   const currentUser: TTokenUser | null = user || null;
   const { products: cartItems } = useAppSelector((state) => state.cart);
+    const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.orderQuantity, 0);
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -172,7 +173,7 @@ export function Header({ categories }: Props) {
                   </Badge>
                 </Button>
               </Link>
-              <div className="hidden sm:block text-sm font-medium">৳0.00</div>
+              <div className="hidden sm:block text-sm font-medium">৳{subtotal}</div>
             </div>
 
             {/* Mobile Menu */}
