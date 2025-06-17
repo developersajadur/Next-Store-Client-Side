@@ -1,4 +1,4 @@
-import CartComponent from '@/components/modules/Cart/CartComponent';
+import CartComponent from '@/components/modules/(UserModules)/Cart/CartComponent';
 import React from 'react';
 
 const CartPage = () => {

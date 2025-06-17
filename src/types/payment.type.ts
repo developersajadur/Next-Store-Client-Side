@@ -10,7 +10,7 @@ export type TPaymentResponse = {
   };
   orderId: string;
   method: string;
-  status: 'paid' | 'pending' | 'failed';
+ status: 'pending' | 'paid' | 'failed' | 'refunded';
   transactionId: string;
   sp_order_id: string;
   amount: number;

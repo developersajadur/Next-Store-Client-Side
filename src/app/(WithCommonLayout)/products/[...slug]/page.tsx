@@ -1,5 +1,5 @@
-import ProductDetails from '@/components/modules/Product/ProductDetails/ProductDetails';
-import { getProductDetailsBySlug, getRelatedProducts } from '@/services/ProductService';
+import ProductDetails from '@/components/modules/(UserModules)/Product/ProductDetails/ProductDetails';
+import { getProductDetailsBySlug, getRelatedProducts } from '@/services/(UserServices)/ProductService';
 import React from 'react';
 
 const ProductDetailsPage = async({

@@ -1,4 +1,4 @@
-import PersonalInfoSkeleton from '@/components/modules/Profile/PersonalInfoSkeleton';
+import PersonalInfoSkeleton from '@/components/modules/(UserModules)/Profile/PersonalInfoSkeleton';
 import React from 'react';
 
 const loading = () => {

@@ -1,7 +1,7 @@
 
 import { Footer } from '@/components/shared/Footer';
 import { Header } from '@/components/shared/Header';
-import { getAllCategoryWithSomeData } from '@/services/CategoryService';
+import { getAllCategoryWithSomeData } from '@/services/(UserServices)/CategoryService';
 import React from 'react';
 
 const CommonLayout = async ({ children }: { children: React.ReactNode })  => {

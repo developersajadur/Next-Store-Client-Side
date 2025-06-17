@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getCurrentUser } from "./services/AuthService";
+import { getCurrentUser } from "./services/(UserServices)/AuthService";
 
 type Role = "customer" | "admin";
 
-const authRoutes = ["/login", "/register"];
+const authRoutes = ["/login", "/register", "/admin-login"];
 
 const roleBasedPrivateRoutes: Record<Role, RegExp[]> = {
-  admin: [/^\/admin/],
+  admin: [/^\/dashboard/],
   customer: [/^\/payments/, /^\/profile/],
 };
 
@@ -14,38 +14,46 @@ export const middleware = async (request: NextRequest) => {
   const { pathname, origin } = request.nextUrl;
   const userInfo = await getCurrentUser();
 
-  if (!userInfo) {
-    if (authRoutes.includes(pathname)) {
-      return NextResponse.next();
-    } else {
-      const redirectPath = pathname || "/";
-      const loginRedirectUrl = new URL(
-        `${origin}/login?redirectPath=${encodeURIComponent(redirectPath)}`
-      );
-      return NextResponse.redirect(loginRedirectUrl);
-    }
+  // Public access for auth pages
+  if (authRoutes.includes(pathname)) {
+    return NextResponse.next();
   }
 
-  const userRole = userInfo?.role?.toLowerCase() as Role | undefined;
+  // Handle unauthenticated user access
+  if (!userInfo) {
+    const isAdminRoute = /^\/dashboard/.test(pathname);
+    const redirectPath = encodeURIComponent(pathname);
+
+    const loginRedirectUrl = new URL(
+      isAdminRoute
+        ? `${origin}/admin-login?redirectPath=${redirectPath}`
+        : `${origin}/login?redirectPath=${redirectPath}`
+    );
+
+    return NextResponse.redirect(loginRedirectUrl);
+  }
+
+  // Role-based route validation
+  const userRole = userInfo.role?.toLowerCase() as Role;
 
   if (!userRole || !roleBasedPrivateRoutes[userRole]) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
   const allowedRoutes = roleBasedPrivateRoutes[userRole];
-  const isAllowed = allowedRoutes.some((route) => pathname.match(route));
+  const isAllowed = allowedRoutes.some((route) => route.test(pathname));
 
-  if (isAllowed) {
-    return NextResponse.next();
+  if (!isAllowed) {
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
-  return NextResponse.redirect(new URL("/", request.url));
+  return NextResponse.next();
 };
 
 export const config = {
   matcher: [
-    "/profile/:page*",
-    "/payments/:page*",
-    "/create-event/:page*",
+    "/profile/:path*",
+    "/payments/:path*",
+    "/dashboard/:path*",
   ],
 };

@@ -1,5 +1,5 @@
-import { ProfileForm } from "@/components/modules/Profile/ProfileForm";
-import { getMyProfileData } from "@/services/UserService";
+import { ProfileForm } from "@/components/modules/(UserModules)/Profile/ProfileForm";
+import { getMyProfileData } from "@/services/(UserServices)/UserService";
 
 export default async function ProfilePage() {
   const userData = await getMyProfileData();

@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { TUser } from "@/types";
-import { logout } from "@/services/AuthService";
+import { logout } from "@/services/(UserServices)/AuthService";
 import { toast } from "sonner";
 import { useUser } from "@/contexts/UserContext";
 

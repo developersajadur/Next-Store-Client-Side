@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 import { TTokenUser } from "@/types";
-import { getCurrentUser } from "@/services/AuthService";
+import { getCurrentUser } from "@/services/(UserServices)/AuthService";
 
 interface IUserProviderValues {
   user: TTokenUser | null;

@@ -1,9 +1,9 @@
-import { FilterSidebar } from "@/components/modules/Product/filter-sidebar";
-import { MobileFilterSheet } from "@/components/modules/Product/mobile-filter-sheet";
-import { ProductCard } from "@/components/modules/Product/ProductCard";
-import { getAllProductsForCategoryWithQuery } from "@/services/ProductService";
+import { FilterSidebar } from "@/components/modules/(UserModules)/Product/filter-sidebar";
+import { MobileFilterSheet } from "@/components/modules/(UserModules)/Product/mobile-filter-sheet";
+import { ProductCard } from "@/components/modules/(UserModules)/Product/ProductCard";
+import { getAllProductsForCategoryWithQuery } from "@/services/(UserServices)/ProductService";
 import { Suspense } from "react";
-import { AllProductsPagination } from "@/components/modules/Product/AllProductsPagination";
+import { AllProductsPagination } from "@/components/modules/(UserModules)/Product/AllProductsPagination";
 import { IProductCard } from "@/types";
 import AllProductsLoading from "@/components/Loaders/AllProductsLoading";
 

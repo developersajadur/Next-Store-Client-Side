@@ -1,11 +1,26 @@
 
+
+export interface TCategory {
+  _id: string;
+  title: string;
+  slug: string;
+  image: TMediaSomeData;
+}
+
+export interface TBrand {
+  _id: string;
+  title: string;
+  slug: string;
+  image: TMediaSomeData;
+}
+
 export interface IProductCard {
   _id: string;
   title: string;
   slug: string;
   image: TMediaSomeData;
-  category: string[];
-  brand: string;
+  category: TCategory[];
+  brand: TBrand;
   price: number;
   regular_price: number;
   sale_price: number;

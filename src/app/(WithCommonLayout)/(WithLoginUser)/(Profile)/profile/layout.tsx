@@ -1,6 +1,6 @@
 import type { ReactNode } from "react"
 import { ProfileSidebar } from "@/components/shared/ProfileSidebar"
-import { getMyProfileData } from "@/services/UserService";
+import { getMyProfileData } from "@/services/(UserServices)/UserService";
 
 export default async function ProfileLayout({ children }: { children: ReactNode }) {
     const userData = await getMyProfileData();

@@ -1,5 +1,5 @@
-import CheckoutComponent from '@/components/modules/Checkout/CheckoutComponent';
-import { getSingleProductWithSomeDataBySlug } from '@/services/CheckoutService';
+import CheckoutComponent from '@/components/modules/(UserModules)/Checkout/CheckoutComponent';
+import { getSingleProductWithSomeDataBySlug } from '@/services/(UserServices)/CheckoutService';
 import React from 'react';
 
 const SingleProductCheckoutPage = async({

@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Logo } from "@/components/shared/Logo";
-import { LoginForm } from "@/components/modules/Auth/Login/LoginForm";
-import { SocialLogin } from "@/components/modules/Auth/SocialLogin";
+import { LoginForm } from "@/components/modules/(UserModules)/Auth/Login/LoginForm";
+import { SocialLogin } from "@/components/modules/(UserModules)/Auth/SocialLogin";
 
 export default function LoginPage() {
   return (

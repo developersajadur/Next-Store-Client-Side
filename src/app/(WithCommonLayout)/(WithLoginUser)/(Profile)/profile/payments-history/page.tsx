@@ -1,5 +1,5 @@
-import { PaymentHistory } from "@/components/modules/Payment/PaymentHistory";
-import { getMyPayments } from "@/services/PaymentService";
+import { PaymentHistory } from "@/components/modules/(UserModules)/Payment/PaymentHistory";
+import { getMyPayments } from "@/services/(UserServices)/PaymentService";
 
 
 

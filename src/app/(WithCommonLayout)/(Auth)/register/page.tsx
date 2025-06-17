@@ -1,8 +1,8 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Logo } from "@/components/shared/Logo"
-import { RegisterForm } from "@/components/modules/Auth/Register/RegisterForm"
-import { SocialLogin } from "@/components/modules/Auth/SocialLogin"
+import { RegisterForm } from "@/components/modules/(UserModules)/Auth/Register/RegisterForm"
+import { SocialLogin } from "@/components/modules/(UserModules)/Auth/SocialLogin"
 
 export default function RegisterPage() {
   return (

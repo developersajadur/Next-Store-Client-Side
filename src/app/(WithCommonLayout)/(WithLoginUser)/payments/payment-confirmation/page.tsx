@@ -1,4 +1,4 @@
-import PaymentConfirmation from "@/components/modules/Payment/PaymentConfirmation";
+import PaymentConfirmation from "@/components/modules/(UserModules)/Payment/PaymentConfirmation";
 import React from "react";
 
 const PaymentConfirmationPage = () => {

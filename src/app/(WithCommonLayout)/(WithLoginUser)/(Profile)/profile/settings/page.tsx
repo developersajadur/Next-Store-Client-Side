@@ -1,8 +1,8 @@
 import { Lock, Palette, MapPin } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ChangePasswordForm } from "@/components/modules/Settings/ChangePasswordForm"
-import { ThemeSwitcher } from "@/components/modules/Settings/ThemeSwitcher"
-import { AddressManager } from "@/components/modules/Settings/AddressManager"
+import { ChangePasswordForm } from "@/components/modules/(UserModules)/Settings/ChangePasswordForm"
+import { ThemeSwitcher } from "@/components/modules/(UserModules)/Settings/ThemeSwitcher"
+import { AddressManager } from "@/components/modules/(UserModules)/Settings/AddressManager"
 
 const SettingPage = () => {
   return (

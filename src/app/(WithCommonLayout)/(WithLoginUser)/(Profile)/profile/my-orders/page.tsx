@@ -1,4 +1,4 @@
-import MyOrders from "@/components/modules/Order/MyOrder";
+import MyOrders from "@/components/modules/(UserModules)/Order/MyOrder";
 
 
 const MyOrdersPage =  () => {
