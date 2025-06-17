@@ -104,6 +104,7 @@ type Props = {
 };
 
 export default function HomeBrandsSlider ({ brands }: Props){
+  console.log(brands);
   const [currentSlide, setCurrentSlide] = useState(0)
   const [loaded, setLoaded] = useState(false)
 

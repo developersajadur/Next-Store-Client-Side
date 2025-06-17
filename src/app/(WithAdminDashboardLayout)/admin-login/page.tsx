@@ -179,10 +179,10 @@ export default function LoginPage() {
               <p className="text-sm font-medium text-blue-800 mb-2">Demo Credentials:</p>
               <div className="text-sm text-blue-700 space-y-1">
                 <p>
-                  <strong>Email:</strong> admin@spodut.com
+                  <strong>Email:</strong> admin@gmail.com.com
                 </p>
                 <p>
-                  <strong>Password:</strong> admin123
+                  <strong>Password:</strong> Admin@123
                 </p>
               </div>
             </div>

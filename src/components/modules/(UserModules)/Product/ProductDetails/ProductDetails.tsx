@@ -78,6 +78,10 @@ export default function ProductDetails({
     router.push("/cart");
   };
 
+   const handleBuyNow = (slug: string) => {
+    router.push(`/checkout/${slug}`)
+  };
+
   // Main product image slider
   const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
     initial: 0,
@@ -313,8 +317,11 @@ export default function ProductDetails({
                         <Plus className="w-4 h-4" />
                       </Button>
                     </div>
-                    <Button className="bg-orange-500 hover:bg-orange-600 text-white">
-                      Buy Now
+                    <Button
+                    onClick={() => handleBuyNow(product.slug)}
+                      disabled={isOutOfStock}
+                     className="bg-orange-500 hover:bg-orange-600 text-white">
+                         {isOutOfStock ? "Out of Stock" : "Buy Now"}
                     </Button>
                     <Button
                       onClick={() => handleAddToCart()}

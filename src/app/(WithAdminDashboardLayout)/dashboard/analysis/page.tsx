@@ -145,7 +145,7 @@ export default function DashboardAnalysisPage() {
         </Card>
 
         {/* Sales Channel Chart - Takes 1 column */}
-        <Card>
+        {/* <Card>
           <CardHeader>
             <CardTitle className="text-lg md:text-xl">Total Sales</CardTitle>
             <CardDescription className="text-sm">Sales by channel</CardDescription>
@@ -191,7 +191,7 @@ export default function DashboardAnalysisPage() {
               ))}
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
       </div>
 
       {/* Top Selling Products - Responsive Table */}
