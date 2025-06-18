@@ -2,13 +2,13 @@
 
 import { useState, useEffect, useRef, RefObject } from "react";
 import { toast } from "sonner";
-import { getAllMedia, uploadMedia } from "@/services/(AdminServices/MediaService";
 import { IMediaResponse, MediaLibraryDialogProps, ViewMode } from "@/types";
 import { MediaLibraryHeader } from "./MediaLibraryHeader";
 import { MediaLibraryFooter } from "./MediaLibraryFooter";
 import { MediaLibraryTabs } from "./MediaLibraryTabs";
 import { MediaLibraryView } from "./MediaLibraryView";
 import { MediaUploadView } from "./MediaUploadView";
+import { getAllMedia, uploadMedia } from "@/services/(AdminServices/MediaService";
 
 export function MediaLibraryDialog({
   open,
@@ -19,95 +19,97 @@ export function MediaLibraryDialog({
   mode = "multiple",
 }: MediaLibraryDialogProps) {
   const [images, setImages] = useState<IMediaResponse[]>([]);
-  const [selectedIds, setSelectedIds] = useState<string[]>(
-    selectedImages.map((img) => img._id)
-  );
+  const [selectedIds, setSelectedIds] = useState<string[]>(selectedImages.map((img) => img._id));
   const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadFiles, setUploadFiles] = useState<File[]>([]);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  
+  // Fix here: allow null initial value for ref
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  // Load media when dialog opens
+  const [limit, setLimit] = useState(18);
+  const [hasMore, setHasMore] = useState(true);
+
   useEffect(() => {
+    if (!open) return;
+
     const loadMedia = async () => {
-      if (open) {
-        setLoading(true);
-        try {
-          const response = await getAllMedia();
-          setImages(response?.data || []);
-          setSelectedIds(selectedImages.map((img) => img._id));
-        } catch (error) {
-          console.error("Failed to load media:", error);
-          toast.error("Failed to load media");
-        } finally {
-          setLoading(false);
+      setLoading(true);
+      try {
+        const response = await getAllMedia(limit);
+        const media = response?.data?.data || [];
+
+        if (media.length < limit) {
+          setHasMore(false);
+        } else {
+          setHasMore(true);
         }
+
+        setImages(media);
+        setSelectedIds(selectedImages.map((img) => img._id));
+      } catch (error) {
+        console.error("Failed to load media:", error);
+        toast.error("Failed to load media");
+      } finally {
+        setLoading(false);
       }
     };
+
     loadMedia();
-  }, [open, selectedImages]);
+  }, [open, selectedImages, limit]);
 
   const handleImageSelect = (imageId: string) => {
     if (mode === "single") {
       setSelectedIds([imageId]);
+    } else {
+      setSelectedIds((prev) => {
+        if (prev.includes(imageId)) {
+          return prev.filter((id) => id !== imageId);
+        } else if (prev.length < maxSelection) {
+          return [...prev, imageId];
+        }
+        toast.warning(`Maximum ${maxSelection} images can be selected`);
+        return prev;
+      });
+    }
+  };
+
+  const handleUpload = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (uploadFiles.length === 0) {
+      toast.warning("Please select files to upload");
       return;
     }
 
-    setSelectedIds((prev) => {
-      if (prev.includes(imageId)) {
-        return prev.filter((id) => id !== imageId);
-      } else if (prev.length < maxSelection) {
-        return [...prev, imageId];
+    setUploading(true);
+    try {
+      const formData = new FormData();
+      uploadFiles.forEach((file) => formData.append("files", file));
+      const response = await uploadMedia(formData);
+      if (response.success) {
+        setImages((prev) => [...response.data, ...prev]);
+        setSelectedIds((prev) => [...prev, ...response.data.map((img: IMediaResponse) => img._id)]);
+        setUploadFiles([]);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
+        toast.success(`${response.data.length} file(s) uploaded successfully`);
+      } else {
+        toast.error("Upload failed");
       }
-      toast.warning(`Maximum ${maxSelection} images can be selected`);
-      return prev;
-    });
+    } catch (error) {
+      console.error("Upload failed:", error);
+      toast.error("Upload failed");
+    } finally {
+      setUploading(false);
+    }
   };
 
-const handleUpload = async (e: React.FormEvent) => {
-  e.preventDefault();
-
-  if (uploadFiles.length === 0) {
-    toast.warning("Please select files to upload");
-    return;
-  }
-
-  setUploading(true);
-
-  try {
-    const formData = new FormData();
-    uploadFiles.forEach((file) => {
-      formData.append("files", file);
-    });
-
-    const response = await uploadMedia(formData);
-    if (response.success) {
-      setImages((prev) => [...response.data, ...prev]);
-      setSelectedIds((prev) => [
-        ...prev,
-        ...response.data.map((img: IMediaResponse) => img._id),
-      ]);
-      setUploadFiles([]);
-
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
-
-      toast.success(`${response.data.length} file(s) uploaded successfully`);
-    } else {
-      toast.error("Upload failed");
-    }
-  } catch (error) {
-    console.error("Upload failed:", error);
-    toast.error("Upload failed");
-  } finally {
-    setUploading(false);
-  }
-};
-
-
+  const handleLoadMore = () => {
+    setLimit((prev) => prev + 18);
+  };
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -115,22 +117,24 @@ const handleUpload = async (e: React.FormEvent) => {
     const imageFiles = files.filter((file) => file.type.startsWith("image/"));
     const remainingSlots = Math.max(0, maxSelection - uploadFiles.length);
     const filesToAdd = imageFiles.slice(0, remainingSlots);
-
     if (filesToAdd.length < imageFiles.length) {
       toast.warning(`Only ${remainingSlots} more file(s) can be added`);
     }
-
     setUploadFiles((prev) => [...prev, ...filesToAdd]);
-    if (fileInputRef.current) fileInputRef.current.value = "";
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   const triggerFileInput = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (fileInputRef.current && uploadFiles.length < maxSelection) {
-      fileInputRef.current.click();
-    } else if (uploadFiles.length >= maxSelection) {
+    if (uploadFiles.length >= maxSelection) {
       toast.warning(`Maximum ${maxSelection} files can be uploaded at once`);
+      return;
+    }
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
     }
   };
 
@@ -173,22 +177,21 @@ const handleUpload = async (e: React.FormEvent) => {
       toast.warning(`Maximum ${maxSelection} files can be uploaded at once`);
       return;
     }
-
     const files = Array.from(e.dataTransfer.files);
     const imageFiles = files.filter((file) => file.type.startsWith("image/"));
     const remainingSlots = Math.max(0, maxSelection - uploadFiles.length);
     const filesToAdd = imageFiles.slice(0, remainingSlots);
-
     if (filesToAdd.length < imageFiles.length) {
       toast.warning(`Only ${remainingSlots} more file(s) can be added`);
     }
-
     setUploadFiles((prev) => [...prev, ...filesToAdd]);
   };
 
-  const filteredImages = images.filter((image) =>
-    image.fileName.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredImages = Array.isArray(images)
+    ? images.filter((image) =>
+        image.fileName.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : [];
 
   if (!open) return null;
 
@@ -199,7 +202,6 @@ const handleUpload = async (e: React.FormEvent) => {
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
         />
-
         <MediaLibraryTabs
           libraryContent={
             <MediaLibraryView
@@ -210,6 +212,8 @@ const handleUpload = async (e: React.FormEvent) => {
               selectedIds={selectedIds}
               onImageSelect={handleImageSelect}
               maxSelection={maxSelection}
+              hasMore={hasMore}
+              onLoadMore={handleLoadMore}
             />
           }
           uploadContent={
@@ -224,11 +228,10 @@ const handleUpload = async (e: React.FormEvent) => {
               onSubmit={handleUpload}
               onDragOver={handleDragOver}
               onDrop={handleDrop}
-              fileInputRef={fileInputRef as RefObject<HTMLInputElement>}
+              fileInputRef={fileInputRef}
             />
           }
         />
-
         <MediaLibraryFooter
           selectedCount={selectedIds.length}
           maxSelection={maxSelection}

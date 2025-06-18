@@ -25,7 +25,7 @@ interface MediaUploadViewProps {
   onSubmit: (e: FormEvent) => void;
   onDragOver: (e: DragEvent<HTMLDivElement>) => void;
   onDrop: (e: DragEvent<HTMLDivElement>) => void;
-  fileInputRef: RefObject<HTMLInputElement>;
+  fileInputRef: RefObject<HTMLInputElement | null>
 }
 
 export function MediaUploadView({
