@@ -8,3 +8,16 @@ export interface IMediaResponse {
   createdAt: Date; 
   updatedAt: Date; 
 }
+
+
+
+export interface MediaLibraryDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onSelect: (images: IMediaResponse[]) => void;
+  maxSelection?: number;
+  selectedImages?: IMediaResponse[];
+  mode?: "single" | "multiple";
+}
+
+export type ViewMode = "grid" | "list";

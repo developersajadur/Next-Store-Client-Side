@@ -3,7 +3,6 @@
 import { cookies } from "next/headers";
 import { BASE_API_URL } from "../..";
 import { revalidateTag } from "next/cache";
-import { FieldValue } from "react-hook-form";
 
 export const getAllMedia = async () => {
   try {
@@ -39,7 +38,7 @@ export const uploadMedia = async (images: FormData) => {
     });
     const result = await res.json();
      revalidateTag("MEDIA");
-    return result.data;
+    return result;
   } catch (error: any) {
     return { error: error.message };
   }

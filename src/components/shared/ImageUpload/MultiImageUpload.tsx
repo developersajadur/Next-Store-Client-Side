@@ -6,8 +6,8 @@ import { Card } from "@/components/ui/card"
 import { X, ImageIcon, Plus } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
-import { MediaLibraryDialog } from "./MediaLibraryDialog"
 import { IMediaResponse } from "@/types"
+import { MediaLibraryDialog } from "../MediaLibrary/MediaLibraryDialog"
 
 interface MultiImageUploadProps {
   value: IMediaResponse[]
@@ -25,6 +25,7 @@ export function MultiImageUpload({ value = [], onChange, maxImages = 4, classNam
     const newImages = images.filter((img) => !existingIds.includes(img._id))
     const combined = [...value, ...newImages].slice(0, maxImages)
     onChange(combined)
+    setShowMediaLibrary(false)
   }
 
   const handleRemove = (imageId: string) => {
@@ -52,7 +53,10 @@ export function MultiImageUpload({ value = [], onChange, maxImages = 4, classNam
                 variant="destructive"
                 size="sm"
                 className="absolute top-1 right-1 h-5 w-5 p-0"
-                onClick={() => handleRemove(image._id)}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  handleRemove(image._id)
+                }}
               >
                 <X className="h-3 w-3" />
               </Button>
@@ -91,7 +95,12 @@ export function MultiImageUpload({ value = [], onChange, maxImages = 4, classNam
 
       {/* Add More Button */}
       {canAddMore && value.length > 0 && (
-        <Button type="button" variant="outline" onClick={() => setShowMediaLibrary(true)} className="w-full mt-2">
+        <Button 
+          type="button" 
+          variant="outline" 
+          onClick={() => setShowMediaLibrary(true)} 
+          className="w-full mt-2"
+        >
           <Plus className="mr-2 h-4 w-4" />
           Add More Images ({value.length}/{maxImages})
         </Button>

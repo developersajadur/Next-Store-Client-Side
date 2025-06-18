@@ -1,15 +1,13 @@
 "use client"
 
-import type React from "react"
-
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { X, ImageIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
-import { MediaLibraryDialog } from "./MediaLibraryDialog"
 import { IMediaResponse } from "@/types"
+import { MediaLibraryDialog } from "../MediaLibrary/MediaLibraryDialog"
 
 interface ImageUploadProps {
   value: IMediaResponse | null
@@ -18,13 +16,14 @@ interface ImageUploadProps {
   className?: string
 }
 
-export function ImageUpload({ value, onChange, placeholder = "Upload image", className }: ImageUploadProps) {
+export function SingleImageUpload({ value, onChange, placeholder = "Upload image", className }: ImageUploadProps) {
   const [showMediaLibrary, setShowMediaLibrary] = useState(false)
 
   const handleMediaSelect = (images: IMediaResponse[]) => {
     if (images.length > 0) {
       onChange(images[0])
     }
+    setShowMediaLibrary(false)
   }
 
   const handleRemove = (e: React.MouseEvent) => {
@@ -48,8 +47,8 @@ export function ImageUpload({ value, onChange, placeholder = "Upload image", cla
               src={value.url || "/placeholder.svg"}
               alt={value.fileName}
               className="w-full h-32 object-cover rounded"
-                width={300}
-                height={300}
+              width={300}
+              height={300}
             />
             <Button
               type="button"

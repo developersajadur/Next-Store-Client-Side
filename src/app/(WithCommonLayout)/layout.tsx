@@ -1,6 +1,6 @@
 import { Footer } from "@/components/shared/Footer";
 import { Header } from "@/components/shared/Header";
-import BottomHeader from "@/components/shared/MediaLibrary/BottomHeader";
+import BottomHeader from "@/components/shared/BottomHeader";
 import { getAllCategoryWithSomeData } from "@/services/(UserServices)/CategoryService";
 import React from "react";
 
