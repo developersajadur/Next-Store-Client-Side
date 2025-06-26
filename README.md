@@ -32,26 +32,23 @@ Next Store Pro is a modern, responsive eCommerce web application built with **Ne
 
 ---
 
-## 📸 Screenshots
-
-> _Add screenshots here to showcase your product pages, cart, and checkout experience._
-
----
-
 ## 📂 Getting Started
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/next-store-pro.git
+[git clone https://github.com/your-username/next-store-pro.git](https://github.com/developersajadur/Next-Store-Client-Side.git)
 
 ```
 # Navigate into the directory
 cd next-store-pro
 
 # Install dependencies
+```bash
 npm install
-
+```
 # Run the development server
+```bash
 npm run dev
+```
 Visit http://localhost:3000 in your browser to see the app in action.
 
