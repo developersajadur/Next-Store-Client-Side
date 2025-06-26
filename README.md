@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛒 Next Store Pro
 
-## Getting Started
+**Live Site:** [https://next-store-pro.vercel.app](https://next-store-pro.vercel.app)
 
-First, run the development server:
+Next Store Pro is a modern, responsive eCommerce web application built with **Next.js**, **Redux**, **Tailwind CSS**, and **ShadCN UI**. It is designed for selling digital products such as laptops, smartwatches, and other tech gear.
+
+---
+
+## 🚀 Features
+
+- 🔥 **Next.js 14** for fast server-side rendering and SEO optimization
+- 🎨 **Tailwind CSS** for sleek and modern UI styling
+- 🧩 **ShadCN UI** components for flexible and accessible UI elements
+- 🛍️ **Redux Toolkit** for global state management (e.g., Cart functionality)
+- 💳 **SurjoPay integration** for secure online payments
+- 🔐 **JWT Authentication** for protected routes and user sessions
+- 🧠 Optimized product catalog with categories and filtering
+- 🛒 Cart management with persistent state
+- ✅ Order summary, checkout, and payment confirmation pages
+- 📦 Order management and digital product delivery (ready to integrate)
+
+---
+
+## 🧰 Tech Stack
+
+- Framework: **Next.js**
+- State Management: **Redux Toolkit**
+- Styling: **Tailwind CSS**, **ShadCN UI**
+- Authentication: **JWT (JSON Web Token)**
+- Payment Gateway: **SurjoPay**
+- Deployment: **Vercel**
+
+---
+
+## 📸 Screenshots
+
+> _Add screenshots here to showcase your product pages, cart, and checkout experience._
+
+---
+
+## 📂 Getting Started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Clone the repository
+git clone https://github.com/your-username/next-store-pro.git
+
 ```
+# Navigate into the directory
+cd next-store-pro
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Install dependencies
+npm install
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Run the development server
+npm run dev
+Visit http://localhost:3000 in your browser to see the app in action.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
