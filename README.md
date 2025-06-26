@@ -2,7 +2,7 @@
 
 **Live Site:** [https://next-store-pro.vercel.app](https://next-store-pro.vercel.app)
 
-Next Store Pro is a modern, responsive eCommerce web application built with **Next.js**, **Redux**, **Tailwind CSS**, and **ShadCN UI**. It is designed for selling digital products such as laptops, smartwatches, and other tech gear.
+Next Store Pro is a modern, responsive eCommerce web application built with  **TypeScript**, **JavaScript**, **Next.js**, **Redux**, **Tailwind CSS**, and **ShadCN UI**. It is designed for selling digital products such as laptops, smartwatches, and other tech gear.
 
 ---
 
